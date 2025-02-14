@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BTC流入监控配置</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 200px;
+            padding: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>BTC流入监控配置</h1>
+    <div class="form-group">
+        <label for="threshold">净流入阈值:</label>
+        <input type="number" id="threshold" value="{{ config.threshold }}" step="0.1">
+    </div>
+    <div class="form-group">
+        <label for="unit">单位:</label>
+        <select id="unit">
+            {% for unit in unit_list %}
+            <option value="{{ unit }}" {% if unit == config.unit %}selected{% endif %}>{{ unit }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="period">监控周期:</label>
+        <select id="period">
+            {% for period in period_list %}
+            <option value="{{ period }}" {% if period == config.period %}selected{% endif %}>{{ period }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button onclick="saveConfig()">保存配置</button>
+
+    <script>
+        function saveConfig() {
+            const config = {
+                threshold: parseFloat(document.getElementById('threshold').value),
+                unit: document.getElementById('unit').value,
+                period: document.getElementById('period').value
+            };
+
+            fetch('/api/config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(config)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('配置保存成功！');
+                } else {
+                    alert('配置保存失败：' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('配置保存失败：' + error);
+            });
+        }
+    </script>
+</body>
+</html> 
