@@ -144,6 +144,33 @@ def get_btc_flow_data():
             # 由于第一个td是币种信息，所以实际的数据从第三个td开始
             target_td = td_elements[period_index + 5]
             value = target_td.text.strip()
+            # 提取数值并统一转换为万单位
+            value_num = float(value.replace(',', ''))
+            unit = default_config['unit']
+            
+            # 转换为万单位
+            if unit == '亿':
+                value_num = value_num * 10000  # 亿转万
+            
+            # 获取阈值并转换为万单位
+            threshold = float(default_config['threshold'])
+            if default_config['unit'] == '亿':
+                threshold = threshold * 10000
+            elif default_config['unit'] == '千万':
+                threshold = threshold * 1000
+            elif default_config['unit'] == '百万':
+                threshold = threshold * 100
+                
+            # 根据阈值正负判断是否需要告警
+            should_alert = False
+            if threshold > 0 and value_num > threshold:
+                should_alert = True
+            elif threshold < 0 and value_num < threshold:
+                should_alert = True
+                
+            if should_alert:
+                alert_msg = f"BTC{default_config['period']}的净流入值{value}超过阈值{default_config['threshold']}{default_config['unit']}"
+                send_wx_notification(alert_msg, alert_msg)
             print(f"{default_config['period']}的值为: {value}")
             send_wx_notification(f"BTC{default_config['period']}的净流入值为: {value}", f"BTC{default_config['period']}的净流入值为: {value}")
             return value
@@ -184,7 +211,7 @@ def send_wx_notification(title, message):
 
 
 if __name__ == '__main__':
-    # app.run(debug=True, port=80)
-    while True:
-        get_btc_flow_data()
-        time.sleep(60)
+    app.run(debug=True, port=80)
+    # while True:
+    #     get_btc_flow_data()
+    #     time.sleep(60)
