@@ -1,5 +1,5 @@
 {
-    "threshold": -1.0,
-    "unit": "亿",
-    "period": "4小时"
+  "threshold": -105,
+  "unit": "万",
+  "period": "5分钟"
 }

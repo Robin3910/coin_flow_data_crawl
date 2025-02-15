@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 import json
 import os
 import requests
+import re
+
 
 app = Flask(__name__)
 
@@ -18,8 +20,8 @@ CONFIG_FILE = 'config.json'
 
 # 默认配置
 default_config = {
-    'threshold': -1.0,
-    'unit': '亿',
+    'threshold': 1000.0,
+    'unit': '万',
     'period': '5分钟',
     'wx_token': 'SCT264877TGGj20niEYBVMMFU1aN6NQF6g'
 }
@@ -41,6 +43,23 @@ def save_config(config):
 # 获取下一个执行时间点
 def get_next_run_time(period):
     now = datetime.now()
+    if period in ["5分钟", "15分钟", "30分钟"]:
+        minutes = now.minute
+        if period == "5分钟":
+            minutes = minutes // 5 * 5
+            next_time = now.replace(minute=minutes, second=0, microsecond=0)
+            if next_time <= now:
+                next_time += timedelta(minutes=5)
+        elif period == "15分钟":
+            minutes = minutes // 15 * 15
+            next_time = now.replace(minute=minutes, second=0, microsecond=0)
+            if next_time <= now:
+                next_time += timedelta(minutes=15)
+        else:  # 30分钟
+            minutes = minutes // 30 * 30
+            next_time = now.replace(minute=minutes, second=0, microsecond=0)
+            if next_time <= now:
+                next_time += timedelta(minutes=30)
     if period == "1小时":
         hours = now.hour
         next_time = now.replace(minute=0, second=0, microsecond=0)
@@ -66,9 +85,19 @@ def get_next_run_time(period):
         if days_ahead <= 0:
             days_ahead += 7
         next_time += timedelta(days=days_ahead)
-    else:
-        # 对于其他周期(如5分钟、15分钟、30分钟等)，暂时返回当前时间
-        next_time = now
+    elif period == "15天":
+        next_time = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        days_ahead = 15 - now.day
+        if days_ahead <= 0:
+            days_ahead += 15
+        next_time += timedelta(days=days_ahead)
+    elif period == "30天":
+        next_time = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        days_ahead = 30 - now.day
+        if days_ahead <= 0:
+            days_ahead += 30
+        next_time += timedelta(days=days_ahead)
+
     return next_time
 
 # 定时任务
@@ -100,15 +129,37 @@ def update_config():
         # 更新定时任务
         scheduler.remove_all_jobs()
         next_run_time = get_next_run_time(new_config['period'])
-        
-        if new_config['period'] == "4小时":
-            scheduler.add_job(
-                scheduled_task,
-                'interval',
-                hours=4,
-                next_run_time=next_run_time,
-                id='btc_flow_monitor'
-            )
+        # 根据周期设置interval参数
+        interval_params = {}
+        if new_config['period'] == "5分钟":
+            interval_params['minutes'] = 5
+        elif new_config['period'] == "15分钟":
+            interval_params['minutes'] = 15
+        elif new_config['period'] == "30分钟":
+            interval_params['minutes'] = 30
+        elif new_config['period'] == "1小时":
+            interval_params['hours'] = 1
+        elif new_config['period'] == "4小时":
+            interval_params['hours'] = 4
+        elif new_config['period'] == "12小时":
+            interval_params['hours'] = 12
+        elif new_config['period'] == "24小时":
+            interval_params['days'] = 1
+        elif new_config['period'] == "1周":
+            interval_params['weeks'] = 1
+        elif new_config['period'] == "15天":
+            interval_params['days'] = 15
+        elif new_config['period'] == "1月":
+            interval_params['days'] = 30
+
+        # 添加定时任务
+        scheduler.add_job(
+            scheduled_task,
+            'interval',
+            next_run_time=next_run_time,
+            **interval_params,
+            id='btc_flow_monitor'
+        )
         
         return jsonify({"status": "success"})
     except Exception as e:
@@ -131,9 +182,12 @@ def get_btc_flow_data():
         # 等待页面加载（等待表格出现）
         wait = WebDriverWait(driver, 20)
 
+        time.sleep(5)
+
         # 获取BTC行数据
         btc_row_xpath = "//tr[@data-row-key='BTC']"
         btc_row = wait.until(EC.presence_of_element_located((By.XPATH, btc_row_xpath)))
+        time.sleep(1)
         
         # 获取所有td元素
         td_elements = btc_row.find_elements(By.TAG_NAME, "td")
@@ -145,8 +199,14 @@ def get_btc_flow_data():
             target_td = td_elements[period_index + 5]
             value = target_td.text.strip()
             # 提取数值并统一转换为万单位
-            value_num = float(value.replace(',', ''))
-            unit = default_config['unit']
+            # 提取数值和单位
+            match = re.match(r'^(-?\$[\d,.]+)(万|亿)$', value)
+            if not match:
+                raise ValueError(f"无法解析数值: {value}")
+            value = match.group(1)  # 保留正负号和数值部分
+            unit = match.group(2)  # 提取单位
+            value_num = float(value.replace('$', ''))
+            # unit = default_config['unit']
             
             # 转换为万单位
             if unit == '亿':
@@ -156,10 +216,6 @@ def get_btc_flow_data():
             threshold = float(default_config['threshold'])
             if default_config['unit'] == '亿':
                 threshold = threshold * 10000
-            elif default_config['unit'] == '千万':
-                threshold = threshold * 1000
-            elif default_config['unit'] == '百万':
-                threshold = threshold * 100
                 
             # 根据阈值正负判断是否需要告警
             should_alert = False
@@ -172,7 +228,7 @@ def get_btc_flow_data():
                 alert_msg = f"BTC{default_config['period']}的净流入值{value}超过阈值{default_config['threshold']}{default_config['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
             print(f"{default_config['period']}的值为: {value}")
-            send_wx_notification(f"BTC{default_config['period']}的净流入值为: {value}", f"BTC{default_config['period']}的净流入值为: {value}")
+            # send_wx_notification(f"BTC{default_config['period']}的净流入值为: {value}", f"BTC{default_config['period']}的净流入值为: {value}")
             return value
         except ValueError:
             print(f"未找到目标周期 {default_config['period']}")
@@ -211,7 +267,7 @@ def send_wx_notification(title, message):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=80)
+    app.run(debug=False, port=50000)
     # while True:
     #     get_btc_flow_data()
     #     time.sleep(60)
