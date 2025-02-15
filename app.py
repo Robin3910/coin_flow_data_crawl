@@ -31,9 +31,11 @@ period_list = ["5分钟", "15分钟", "30分钟", "1小时", "4小时", "12小�
 unit_list = ["万", "亿"]
 
 def load_config():
+    global default_config
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
+            default_config = json.load(f)
+            return default_config
     return default_config
 
 def save_config(config):
@@ -102,7 +104,7 @@ def get_next_run_time(period):
 
 # 定时任务
 def scheduled_task():
-    config = load_config()
+    # config = load_config()
     result = get_btc_flow_data()
     if result:
         # 处理结果，后续添加告警逻辑
@@ -124,6 +126,8 @@ def index():
 def update_config():
     try:
         new_config = request.json
+        global default_config
+        default_config = new_config
         save_config(new_config)
         
         # 更新定时任务
@@ -195,8 +199,19 @@ def get_btc_flow_data():
         # 找到目标周期在period_list中的索引
         try:
             period_index = period_list.index(default_config['period'])
-            # 由于第一个td是币种信息，所以实际的数据从第三个td开始
-            target_td = td_elements[period_index + 2]
+            
+            target_td = None
+            count = 0
+            for td in td_elements:
+                if td.text == "":
+                    continue
+                text = td.text.strip()
+                if '$' in text:
+                    count += 1
+                if count - 1 == period_index:
+                    target_td = td
+                    break
+
             value = target_td.text.strip()
             # 提取数值并统一转换为万单位
             # 提取数值和单位
@@ -225,9 +240,9 @@ def get_btc_flow_data():
                 should_alert = True
                 
             if should_alert:
-                alert_msg = f"BTC{default_config['period']}的净流入值{value}超过阈值{default_config['threshold']}{default_config['unit']}"
+                alert_msg = f"BTC{default_config['period']}的净流入值{target_td.text.strip()},超过阈值{default_config['threshold']}{default_config['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
-            print(f"{default_config['period']}的值为: {value}")
+            print(f"{default_config['period']}的值为: {target_td.text.strip()}")
             # send_wx_notification(f"BTC{default_config['period']}的净流入值为: {value}", f"BTC{default_config['period']}的净流入值为: {value}")
             return value
         except ValueError:
@@ -306,6 +321,9 @@ if __name__ == '__main__':
     default_config = load_config()
     init_scheduler()
     app.run(debug=False, port=50000)
+
+
+    # test
     # while True:
     #     get_btc_flow_data()
     #     time.sleep(60)

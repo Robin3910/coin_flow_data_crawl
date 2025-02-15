@@ -1,6 +1,6 @@
 {
-  "threshold": -30,
+  "threshold": 30,
   "unit": "万",
-  "period": "5分钟",
+  "period": "30分钟",
   "wx_token": "SCT264877TGGj20niEYBVMMFU1aN6NQF6g"
 }
