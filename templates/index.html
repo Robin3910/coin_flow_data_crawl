@@ -94,6 +94,7 @@
         <h3 style="margin-top: 0;">当前配置</h3>
         <p>净流入阈值: {{ config.threshold }} {{ config.unit }}</p>
         <p>监控周期: {{ config.period }}</p>
+        <p>微信Token: {{ config.wx_token }}</p>
     </div>
 
     <div class="form-group">
@@ -116,6 +117,10 @@
             {% endfor %}
         </select>
     </div>
+    <div class="form-group">
+        <label for="wx_token">微信Token:</label>
+        <input type="text" id="wx_token" value="{{ config.wx_token }}">
+    </div>
     <button onclick="saveConfig()">保存配置</button>
 
     <script>
@@ -123,7 +128,8 @@
             const config = {
                 threshold: parseFloat(document.getElementById('threshold').value),
                 unit: document.getElementById('unit').value,
-                period: document.getElementById('period').value
+                period: document.getElementById('period').value,
+                wx_token: document.getElementById('wx_token').value
             };
 
             fetch('/api/config', {
@@ -141,6 +147,8 @@
                         `净流入阈值: ${config.threshold} ${config.unit}`;
                     document.querySelector('p:nth-of-type(2)').textContent = 
                         `监控周期: ${config.period}`;
+                    document.querySelector('p:nth-of-type(3)').textContent = 
+                        `微信Token: ${config.wx_token}`;
                     alert('配置保存成功！');
                 } else {
                     alert('配置保存失败：' + data.message);

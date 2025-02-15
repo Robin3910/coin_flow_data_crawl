@@ -196,7 +196,7 @@ def get_btc_flow_data():
         try:
             period_index = period_list.index(default_config['period'])
             # 由于第一个td是币种信息，所以实际的数据从第三个td开始
-            target_td = td_elements[period_index + 5]
+            target_td = td_elements[period_index + 2]
             value = target_td.text.strip()
             # 提取数值并统一转换为万单位
             # 提取数值和单位
@@ -265,8 +265,46 @@ def send_wx_notification(title, message):
         # logger.error(f'发送微信消息失败: {str(e)}')
         print(f'发送微信消息失败: {str(e)}')
 
+def init_scheduler():
+       
+    # 更新定时任务
+    scheduler.remove_all_jobs()
+    next_run_time = get_next_run_time(default_config['period'])
+    # 根据周期设置interval参数
+    interval_params = {}
+    if default_config['period'] == "5分钟":
+        interval_params['minutes'] = 5
+    elif default_config['period'] == "15分钟":
+        interval_params['minutes'] = 15
+    elif default_config['period'] == "30分钟":
+        interval_params['minutes'] = 30
+    elif default_config['period'] == "1小时":
+        interval_params['hours'] = 1
+    elif default_config['period'] == "4小时":
+        interval_params['hours'] = 4
+    elif default_config['period'] == "12小时":
+        interval_params['hours'] = 12
+    elif default_config['period'] == "24小时":
+        interval_params['days'] = 1
+    elif default_config['period'] == "1周":
+        interval_params['weeks'] = 1
+    elif default_config['period'] == "15天":
+        interval_params['days'] = 15
+    elif default_config['period'] == "1月":
+        interval_params['days'] = 30
+
+    # 添加定时任务
+    scheduler.add_job(
+        scheduled_task,
+        'interval',
+        next_run_time=next_run_time,
+        **interval_params,
+        id='btc_flow_monitor'
+    )
 
 if __name__ == '__main__':
+    default_config = load_config()
+    init_scheduler()
     app.run(debug=False, port=50000)
     # while True:
     #     get_btc_flow_data()
