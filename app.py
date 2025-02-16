@@ -274,7 +274,7 @@ def send_wx_notification(title, message):
             'desp': message
         }
         # https://sctapi.ftqq.com/SCT264877TGGj20niEYBVMMFU1aN6NQF6g.send?title=五粮液
-        requests.post(f'https://sctapi.ftqq.com/{default_config['wx_token']}.send', data=mydata)
+        requests.post(f"https://sctapi.ftqq.com/{default_config['wx_token']}.send", data=mydata)
         # logger.info('发送微信消息成功')
     except Exception as e:
         # logger.error(f'发送微信消息失败: {str(e)}')
