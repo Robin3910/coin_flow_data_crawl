@@ -320,7 +320,8 @@ def init_scheduler():
 if __name__ == '__main__':
     default_config = load_config()
     init_scheduler()
-    app.run(debug=False, port=50000)
+    
+    app.run(debug=False, host='0.0.0.0', port=80)
 
 
     # test
