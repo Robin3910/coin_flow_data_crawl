@@ -11,6 +11,7 @@ import json
 import os
 import requests
 import re
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 app = Flask(__name__)
@@ -22,12 +23,12 @@ CONFIG_FILE = 'config.json'
 default_config = {
     'threshold': 1000.0,
     'unit': '万',
-    'period': '5分钟',
+    'period': '4小时',
     'wx_token': 'SCT264877TGGj20niEYBVMMFU1aN6NQF6g'
 }
 
 # 全局变量
-period_list = ["5分钟", "15分钟", "30分钟", "1小时", "4小时", "12小时", "24小时", "1周", "15天", "1月"]
+period_list = ["5分钟", "15分钟", "30分钟", "1小时", "4小时", "12小时", "1天", "1周"]
 unit_list = ["万", "亿"]
 
 def load_config():
@@ -147,7 +148,7 @@ def update_config():
             interval_params['hours'] = 4
         elif new_config['period'] == "12小时":
             interval_params['hours'] = 12
-        elif new_config['period'] == "24小时":
+        elif new_config['period'] == "24小时" or new_config['period'] == "1天":
             interval_params['days'] = 1
         elif new_config['period'] == "1周":
             interval_params['weeks'] = 1
@@ -186,35 +187,62 @@ def get_btc_flow_data():
         # 等待页面加载（等待表格出现）
         wait = WebDriverWait(driver, 20)
 
-        time.sleep(5)
+        time.sleep(2)
 
-        # 获取BTC行数据
-        btc_row_xpath = "//tr[@data-row-key='BTC']"
-        btc_row = wait.until(EC.presence_of_element_located((By.XPATH, btc_row_xpath)))
-        time.sleep(1)
+        # 修改鼠标移动逻辑
+        chart_element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "echarts-for-react")))
         
-        # 获取所有td元素
-        td_elements = btc_row.find_elements(By.TAG_NAME, "td")
+        time.sleep(2)
+
+        # 根据当前配置的时间周期，点击对应的按钮
+        period_list_btn = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@aria-controls=":R7acdaeqm:"]')))
+        period_list_btn.click()
+
+        # 根据default_config['period']，点击对应的按钮
+        # 等待并点击对应时间周期的选项
+        period_options = wait.until(EC.presence_of_element_located((By.XPATH, f"//ul[@id=':R7acdaeqm:']")))
+        period_option = period_options.find_element(By.XPATH, f"//li[text()='{default_config['period']}']")
+        period_option.click()
+
+        time.sleep(2)
+
+        # 获取图表的位置和大小
+        size = chart_element.size
         
-        # 找到目标周期在period_list中的索引
-        try:
-            period_index = period_list.index(default_config['period'])
+        # 使用相对元素的移动方式
+        actions = ActionChains(driver)
+        actions.move_to_element(chart_element).perform()  # 移动到图表中心
+        time.sleep(0.5)
+
+        # 平滑移动到最右边的数据
+        half_offset = size['width'] // 4
+
+        actions.move_by_offset(half_offset, 0).perform()
+
+        right_offset = size['width'] // 4 - 30
+        
+        steps = 80
+        
+        for i in range(steps):
+            # 前半段步子大，后半段步子小
+            if i < steps / 2:
+                progress = i / (steps / 2)  # 0到1的进度
+                x_step = (right_offset / steps) * (2 - progress)  # 从2倍逐渐减小到1倍
+            else:
+                progress = (i - steps/2) / (steps/2)  # 0到1的进度
+                x_step = (right_offset / steps) * (1 - progress * 0.5)  # 从1倍逐渐减小到0.5倍
             
-            target_td = None
-            count = 0
-            for td in td_elements:
-                if td.text == "":
-                    continue
-                text = td.text.strip()
-                if '$' in text:
-                    count += 1
-                if count - 1 == period_index:
-                    target_td = td
-                    break
+            actions.move_by_offset(x_step, 0).perform()
+            # time.sleep(0.02)  # 每步暂停一小段时间，使移动更平滑
+        time.sleep(0.5)
 
-            value = target_td.text.strip()
-            # 提取数值并统一转换为万单位
-            # 提取数值和单位
+        # 获取到整个页面的HTML内容
+        html = driver.page_source
+        # 从html里面匹配出pl20的文本。BTC净流入是class为pl20的div
+        pl20_text = re.findall(r'<div class="pl20">(.*?)</div>', html)
+        if len(pl20_text) > 0:
+            print(f"获取到的pl20文本: {pl20_text[0]}")
+            value = pl20_text[0]
             match = re.match(r'^(-?\$[\d,.]+)(万|亿)$', value)
             if not match:
                 raise ValueError(f"无法解析数值: {value}")
@@ -240,18 +268,12 @@ def get_btc_flow_data():
                 should_alert = True
                 
             if should_alert:
-                alert_msg = f"BTC{default_config['period']}的净流入值{target_td.text.strip()},超过阈值{default_config['threshold']}{default_config['unit']}"
+                alert_msg = f"BTC{default_config['period']}的净流入值{pl20_text[0]},超过阈值{default_config['threshold']}{default_config['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
-            print(f"{default_config['period']}的值为: {target_td.text.strip()}")
-            # send_wx_notification(f"BTC{default_config['period']}的净流入值为: {value}", f"BTC{default_config['period']}的净流入值为: {value}")
-            return value
-        except ValueError:
-            print(f"未找到目标周期 {default_config['period']}")
-            return None
-        except IndexError:
-            print("获取数据失败，td元素数量不足")
-            return None
-        
+            print(f"{default_config['period']}的值为: {pl20_text[0]}")
+        else:
+            print("未找到pl20文本")
+
     except Exception as e:
         print(f"发生错误: {str(e)}")
         return None
@@ -299,7 +321,7 @@ def init_scheduler():
         interval_params['hours'] = 4
     elif default_config['period'] == "12小时":
         interval_params['hours'] = 12
-    elif default_config['period'] == "24小时":
+    elif default_config['period'] == "24小时" or default_config['period'] == "1天":
         interval_params['days'] = 1
     elif default_config['period'] == "1周":
         interval_params['weeks'] = 1
@@ -318,13 +340,13 @@ def init_scheduler():
     )
 
 if __name__ == '__main__':
-    default_config = load_config()
-    init_scheduler()
+    # default_config = load_config()
+    # init_scheduler()
     
-    app.run(debug=False, host='0.0.0.0', port=80)
+    # app.run(debug=False, host='0.0.0.0', port=80)
 
 
     # test
-    # while True:
-    #     get_btc_flow_data()
-    #     time.sleep(60)
+    while True:
+        get_btc_flow_data()
+        time.sleep(60)
