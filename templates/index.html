@@ -92,31 +92,50 @@
     <!-- 添加当前配置显示区域 -->
     <div class="config-display">
         <h3 style="margin-top: 0;">当前配置</h3>
-        <p>净流入阈值: {{ config.threshold }} {{ config.unit }}</p>
-        <p>监控周期: {{ config.period }}</p>
+        {% for period_config in config.period_list %}
+        <div class="period-config">
+            <p>监控周期: {{ period_config.period }}</p>
+            <p>净流入阈值: {{ period_config.threshold }} {{ period_config.unit }}</p>
+        </div>
+        {% endfor %}
         <p>微信Token: {{ config.wx_token }}</p>
     </div>
 
-    <div class="form-group">
-        <label for="threshold">净流入阈值:</label>
-        <input type="number" id="threshold" value="{{ config.threshold }}" step="0.1">
+    <!-- 周期配置区域 -->
+    {% for i in range(3) %}
+    <div class="form-group period-group">
+        <h4>监控配置 #{{ i + 1 }}</h4>
+        <div class="form-row">
+            <label for="threshold{{ i }}">净流入阈值:</label>
+            <input type="number" id="threshold{{ i }}" 
+                value="{{ config.period_list[i].threshold if i < config.period_list|length else 1000.0 }}" 
+                step="0.1">
+        </div>
+        <div class="form-row">
+            <label for="unit{{ i }}">单位:</label>
+            <select id="unit{{ i }}">
+                {% for unit in unit_list %}
+                <option value="{{ unit }}" 
+                    {% if i < config.period_list|length and unit == config.period_list[i].unit %}selected{% endif %}>
+                    {{ unit }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="period{{ i }}">监控周期:</label>
+            <select id="period{{ i }}">
+                {% for period in period_list %}
+                <option value="{{ period }}"
+                    {% if i < config.period_list|length and period == config.period_list[i].period %}selected{% endif %}>
+                    {{ period }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="unit">单位:</label>
-        <select id="unit">
-            {% for unit in unit_list %}
-            <option value="{{ unit }}" {% if unit == config.unit %}selected{% endif %}>{{ unit }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="period">监控周期:</label>
-        <select id="period">
-            {% for period in period_list %}
-            <option value="{{ period }}" {% if period == config.period %}selected{% endif %}>{{ period }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    {% endfor %}
+
     <div class="form-group">
         <label for="wx_token">微信Token:</label>
         <input type="text" id="wx_token" value="{{ config.wx_token }}">
@@ -125,10 +144,19 @@
 
     <script>
         function saveConfig() {
+            const period_list = [];
+            
+            // 收集三个周期的配置
+            for (let i = 0; i < 3; i++) {
+                period_list.push({
+                    threshold: parseFloat(document.getElementById(`threshold${i}`).value),
+                    unit: document.getElementById(`unit${i}`).value,
+                    period: document.getElementById(`period${i}`).value
+                });
+            }
+
             const config = {
-                threshold: parseFloat(document.getElementById('threshold').value),
-                unit: document.getElementById('unit').value,
-                period: document.getElementById('period').value,
+                period_list: period_list,
                 wx_token: document.getElementById('wx_token').value
             };
 
@@ -142,14 +170,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // 更新显示的当前配置值
-                    document.querySelector('p:nth-of-type(1)').textContent = 
-                        `净流入阈值: ${config.threshold} ${config.unit}`;
-                    document.querySelector('p:nth-of-type(2)').textContent = 
-                        `监控周期: ${config.period}`;
-                    document.querySelector('p:nth-of-type(3)').textContent = 
-                        `微信Token: ${config.wx_token}`;
                     alert('配置保存成功！');
+                    location.reload(); // 重新加载页面以显示更新后的配置
                 } else {
                     alert('配置保存失败：' + data.message);
                 }

@@ -20,10 +20,25 @@ CONFIG_FILE = 'config.json'
 
 # 默认配置
 default_config = {
-    'threshold': 1000.0,
-    'unit': '万',
-    'period': '5分钟',
-    'wx_token': 'SCT264877TGGj20niEYBVMMFU1aN6NQF6g'
+  "period_list": [
+    {
+      "threshold": 1000.0,
+      "unit": "万",
+      "period": "30分钟"
+    },
+    {
+      "threshold": 1000.0,
+      "unit": "万",
+      "period": "1小时"
+    },
+    {
+      "threshold": 1000.0,
+      "unit": "万",
+      "period": "4小时"
+    },
+
+  ],
+  "wx_token": "SCT264877TGGj20niEYBVMMFU1aN6NQF6g"
 }
 
 # 全局变量
@@ -103,9 +118,9 @@ def get_next_run_time(period):
     return next_time
 
 # 定时任务
-def scheduled_task():
+def scheduled_task(period_obj):
     # config = load_config()
-    result = get_btc_flow_data()
+    result = get_btc_flow_data(period_obj)
     if result:
         # 处理结果，后续添加告警逻辑
         print(f"执行定时任务，获取到数据：{result}")
@@ -132,44 +147,46 @@ def update_config():
         
         # 更新定时任务
         scheduler.remove_all_jobs()
-        next_run_time = get_next_run_time(new_config['period'])
-        # 根据周期设置interval参数
-        interval_params = {}
-        if new_config['period'] == "5分钟":
-            interval_params['minutes'] = 5
-        elif new_config['period'] == "15分钟":
-            interval_params['minutes'] = 15
-        elif new_config['period'] == "30分钟":
-            interval_params['minutes'] = 30
-        elif new_config['period'] == "1小时":
-            interval_params['hours'] = 1
-        elif new_config['period'] == "4小时":
-            interval_params['hours'] = 4
-        elif new_config['period'] == "12小时":
-            interval_params['hours'] = 12
-        elif new_config['period'] == "24小时":
-            interval_params['days'] = 1
-        elif new_config['period'] == "1周":
-            interval_params['weeks'] = 1
-        elif new_config['period'] == "15天":
-            interval_params['days'] = 15
-        elif new_config['period'] == "1月":
-            interval_params['days'] = 30
+        for period in new_config['period_list']:
 
-        # 添加定时任务
-        scheduler.add_job(
-            scheduled_task,
-            'interval',
-            next_run_time=next_run_time,
-            **interval_params,
-            id='btc_flow_monitor'
-        )
+            next_run_time = get_next_run_time(period['period'])
+            # 根据周期设置interval参数
+            interval_params = {}
+            if period['period'] == "5分钟":
+                interval_params['minutes'] = 5
+            elif period['period'] == "15分钟":
+                interval_params['minutes'] = 15
+            elif period['period'] == "30分钟":
+                interval_params['minutes'] = 30
+            elif period['period'] == "1小时":
+                interval_params['hours'] = 1
+            elif period['period'] == "4小时":
+                interval_params['hours'] = 4
+            elif period['period'] == "12小时":
+                interval_params['hours'] = 12
+            elif period['period'] == "24小时":
+                interval_params['days'] = 1
+            elif period['period'] == "1周":
+                interval_params['weeks'] = 1
+            elif period['period'] == "15天":
+                interval_params['days'] = 15
+            elif period['period'] == "1月":
+                interval_params['days'] = 30
+
+            # 添加定时任务
+            scheduler.add_job(
+                scheduled_task(period_obj=period),
+                'interval',
+                next_run_time=next_run_time,
+                **interval_params,
+                id=f'btc_flow_monitor_{period["period"]}'
+            )
         
         return jsonify({"status": "success"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
-def get_btc_flow_data():
+def get_btc_flow_data(period_obj):
     # 设置Chrome选项
     options = webdriver.ChromeOptions()
     # 添加无头模式（可选）
@@ -198,7 +215,7 @@ def get_btc_flow_data():
         
         # 找到目标周期在period_list中的索引
         try:
-            period_index = period_list.index(default_config['period'])
+            period_index = period_list.index(period_obj['period'])
             
             target_td = None
             count = 0
@@ -221,15 +238,14 @@ def get_btc_flow_data():
             value = match.group(1)  # 保留正负号和数值部分
             unit = match.group(2)  # 提取单位
             value_num = float(value.replace('$', ''))
-            # unit = default_config['unit']
             
             # 转换为万单位
             if unit == '亿':
                 value_num = value_num * 10000  # 亿转万
             
             # 获取阈值并转换为万单位
-            threshold = float(default_config['threshold'])
-            if default_config['unit'] == '亿':
+            threshold = float(period_obj['threshold'])
+            if period_obj['unit'] == '亿':
                 threshold = threshold * 10000
                 
             # 根据阈值正负判断是否需要告警
@@ -240,13 +256,12 @@ def get_btc_flow_data():
                 should_alert = True
                 
             if should_alert:
-                alert_msg = f"BTC{default_config['period']}的净流入值{target_td.text.strip()},超过阈值{default_config['threshold']}{default_config['unit']}"
+                alert_msg = f"BTC{period_obj['period']}的净流入值{target_td.text.strip()},超过阈值{period_obj['threshold']}{period_obj['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
-            print(f"{default_config['period']}的值为: {target_td.text.strip()}")
-            # send_wx_notification(f"BTC{default_config['period']}的净流入值为: {value}", f"BTC{default_config['period']}的净流入值为: {value}")
+            print(f"{period_obj['period']}的值为: {target_td.text.strip()}")
             return value
         except ValueError:
-            print(f"未找到目标周期 {default_config['period']}")
+            print(f"未找到目标周期 {period_obj['period']}")
             return None
         except IndexError:
             print("获取数据失败，td元素数量不足")
@@ -284,38 +299,39 @@ def init_scheduler():
        
     # 更新定时任务
     scheduler.remove_all_jobs()
-    next_run_time = get_next_run_time(default_config['period'])
-    # 根据周期设置interval参数
-    interval_params = {}
-    if default_config['period'] == "5分钟":
-        interval_params['minutes'] = 5
-    elif default_config['period'] == "15分钟":
-        interval_params['minutes'] = 15
-    elif default_config['period'] == "30分钟":
-        interval_params['minutes'] = 30
-    elif default_config['period'] == "1小时":
-        interval_params['hours'] = 1
-    elif default_config['period'] == "4小时":
-        interval_params['hours'] = 4
-    elif default_config['period'] == "12小时":
-        interval_params['hours'] = 12
-    elif default_config['period'] == "24小时":
-        interval_params['days'] = 1
-    elif default_config['period'] == "1周":
-        interval_params['weeks'] = 1
-    elif default_config['period'] == "15天":
-        interval_params['days'] = 15
-    elif default_config['period'] == "1月":
-        interval_params['days'] = 30
+    for period in default_config['period_list']:
+        next_run_time = get_next_run_time(period['period'])
+        # 根据周期设置interval参数
+        interval_params = {}
+        if period['period'] == "5分钟":
+            interval_params['minutes'] = 5
+        elif period['period'] == "15分钟":
+            interval_params['minutes'] = 15
+        elif period['period'] == "30分钟":
+            interval_params['minutes'] = 30
+        elif period['period'] == "1小时":
+            interval_params['hours'] = 1
+        elif period['period'] == "4小时":
+            interval_params['hours'] = 4
+        elif period['period'] == "12小时":
+            interval_params['hours'] = 12
+        elif period['period'] == "24小时":
+            interval_params['days'] = 1
+        elif period['period'] == "1周":
+            interval_params['weeks'] = 1
+        elif period['period'] == "15天":
+            interval_params['days'] = 15
+        elif period['period'] == "1月":
+            interval_params['days'] = 30
 
     # 添加定时任务
-    scheduler.add_job(
-        scheduled_task,
-        'interval',
-        next_run_time=next_run_time,
-        **interval_params,
-        id='btc_flow_monitor'
-    )
+        scheduler.add_job(
+            scheduled_task(period_obj=period),
+            'interval',
+            next_run_time=next_run_time,
+            **interval_params,
+            id=f'btc_flow_monitor_{period["period"]}'
+        )
 
 if __name__ == '__main__':
     default_config = load_config()
