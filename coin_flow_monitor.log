@@ -1,0 +1,27 @@
+2025-02-21 12:37:43,658 - INFO - Scheduler started
+2025-02-21 12:37:43,664 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-21 12:37:43,664 - INFO - 添加定时任务: 5分钟
+2025-02-21 12:37:43,664 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-21 12:37:43,665 - INFO - 添加定时任务: 5分钟
+2025-02-21 12:37:43,665 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-21 12:37:43,665 - INFO - 添加定时任务: 5分钟
+2025-02-21 12:37:43,681 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.31.109:80
+2025-02-21 12:37:43,681 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-21 12:39:30,023 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" (scheduled at 2025-02-21 12:39:30+08:00)
+2025-02-21 12:39:30,025 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" (scheduled at 2025-02-21 12:39:30+08:00)
+2025-02-21 12:39:30,027 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" (scheduled at 2025-02-21 12:39:30+08:00)
+2025-02-21 12:40:03,489 - INFO - 获取到的pl20文本: $17.73万
+2025-02-21 12:40:03,491 - INFO - 5分钟的值为: $17.73万
+2025-02-21 12:40:03,748 - INFO - 获取到的pl20文本: $17.73万
+2025-02-21 12:40:03,751 - INFO - 获取到的pl20文本: $17.73万
+2025-02-21 12:40:03,751 - INFO - 5分钟的值为: $17.73万
+2025-02-21 12:40:03,752 - INFO - 5分钟的值为: $17.73万
+2025-02-21 12:40:09,737 - INFO - 执行定时任务，获取到数据：$17.73
+2025-02-21 12:40:09,739 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" executed successfully
+2025-02-21 12:40:10,046 - INFO - 执行定时任务，获取到数据：$17.73
+2025-02-21 12:40:10,047 - INFO - 执行定时任务，获取到数据：$17.73
+2025-02-21 12:40:10,047 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" executed successfully
+2025-02-21 12:40:10,048 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" executed successfully

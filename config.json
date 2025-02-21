@@ -1,19 +1,19 @@
 {
   "period_list": [
     {
-      "threshold": 1000.0,
+      "threshold": 30,
       "unit": "万",
-      "period": "30分钟"
+      "period": "5分钟"
     },
     {
-      "threshold": 1000.0,
+      "threshold": 50,
       "unit": "万",
-      "period": "1小时"
+      "period": "5分钟"
     },
     {
-      "threshold": 1000.0,
+      "threshold": 100,
       "unit": "万",
-      "period": "4小时"
+      "period": "5分钟"
     }
   ],
   "wx_token": "SCT264877TGGj20niEYBVMMFU1aN6NQF6g"

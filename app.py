@@ -12,9 +12,17 @@ import os
 import requests
 import re
 from selenium.webdriver.common.action_chains import ActionChains
+import logging  # 添加导入
 
 
 app = Flask(__name__)
+
+# 配置日志记录
+logging.basicConfig(level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    handlers=[logging.FileHandler("coin_flow_monitor.log", encoding='utf-8'),  # 添加文件处理器
+                              logging.StreamHandler()])  # 可选：同时输出到控制台
+logger = logging.getLogger(__name__)  # 创建logger实例
 
 # 配置文件路径
 CONFIG_FILE = 'config.json'
@@ -65,16 +73,22 @@ def get_next_run_time(period):
         minutes = now.minute
         if period == "5分钟":
             minutes = minutes // 5 * 5
+            if minutes == 0:
+                minutes = 5
             next_time = now.replace(minute=minutes - 1, second=30, microsecond=0)
             if next_time <= now:
                 next_time += timedelta(minutes=5)
         elif period == "15分钟":
             minutes = minutes // 15 * 15
+            if minutes == 0:
+                minutes = 15
             next_time = now.replace(minute=minutes - 1, second=30, microsecond=0)
             if next_time <= now:
                 next_time += timedelta(minutes=15)
         else:  # 30分钟
             minutes = minutes // 30 * 30
+            if minutes == 0:
+                minutes = 30
             next_time = now.replace(minute=minutes - 1, second=30, microsecond=0)
             if next_time <= now:
                 next_time += timedelta(minutes=30)
@@ -85,11 +99,15 @@ def get_next_run_time(period):
             next_time += timedelta(hours=1)
     elif period == "4小时":
         hours = now.hour // 4 * 4
+        if hours == 0:
+            hours = 4
         next_time = now.replace(hour=hours - 1, minute=59, second=59, microsecond=30)
         if next_time <= now:
             next_time += timedelta(hours=4)
     elif period == "12小时":
         hours = now.hour // 12 * 12
+        if hours == 0:
+            hours = 12
         next_time = now.replace(hour=hours - 1, minute=59, second=59, microsecond=30)
         if next_time <= now:
             next_time += timedelta(hours=12)
@@ -124,7 +142,7 @@ def scheduled_task(period_obj):
     result = get_btc_flow_data(period_obj)
     if result:
         # 处理结果，后续添加告警逻辑
-        print(f"执行定时任务，获取到数据：{result}")
+        logger.info(f"执行定时任务，获取到数据：{result}")
 
 # 初始化调度器
 scheduler = BackgroundScheduler()
@@ -176,11 +194,11 @@ def update_config():
 
             # 添加定时任务
             scheduler.add_job(
-                scheduled_task(period_obj=period),
+                lambda: scheduled_task(period_obj=period),  # 使用 lambda 函数
                 'interval',
                 next_run_time=next_run_time,
                 **interval_params,
-                id=f'btc_flow_monitor_{period["period"]}'
+                id=f'btc_flow_monitor_{period["period"]}_{period["threshold"]}_{period["unit"]}'
             )
         
         return jsonify({"status": "success"})
@@ -218,7 +236,7 @@ def get_btc_flow_data(period_obj):
         # 根据default_config['period']，点击对应的按钮
         # 等待并点击对应时间周期的选项
         period_options = wait.until(EC.presence_of_element_located((By.XPATH, f"//ul[@id=':R7acdaeqm:']")))
-        period_option = period_options.find_element(By.XPATH, f"//li[text()='{default_config['period']}']")
+        period_option = period_options.find_element(By.XPATH, f"//li[text()='{period_obj['period']}']")
         period_option.click()
 
         time.sleep(2)
@@ -258,7 +276,7 @@ def get_btc_flow_data(period_obj):
         # 从html里面匹配出pl20的文本。BTC净流入是class为pl20的div
         pl20_text = re.findall(r'<div class="pl20">(.*?)</div>', html)
         if len(pl20_text) > 0:
-            print(f"获取到的pl20文本: {pl20_text[0]}")
+            logger.info(f"获取到的pl20文本: {pl20_text[0]}")
             value = pl20_text[0]
             match = re.match(r'^(-?\$[\d,.]+)(万|亿)$', value)
             if not match:
@@ -278,23 +296,25 @@ def get_btc_flow_data(period_obj):
                 
             # 根据阈值正负判断是否需要告警
             should_alert = False
-            if threshold > 0 and value_num > threshold:
+            if abs(value_num) > abs(threshold):
                 should_alert = True
-            elif threshold < 0 and value_num < threshold:
-                should_alert = True
+            # if threshold > 0 and value_num > threshold:
+            #     should_alert = True
+            # elif threshold < 0 and value_num < threshold:
+            #     should_alert = True
                 
             if should_alert:
                 alert_msg = f"BTC{period_obj['period']}的净流入值{pl20_text[0]},超过阈值{period_obj['threshold']}{period_obj['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
-            print(f"{period_obj['period']}的值为: {pl20_text[0]}")
+            logger.info(f"{period_obj['period']}的值为: {pl20_text[0]}")
             return value
     except ValueError:
-        print(f"未找到目标周期 {period_obj['period']}")
+        logger.error(f"未找到目标周期 {period_obj['period']}")
         return None
 
         
     except Exception as e:
-        print(f"发生错误: {str(e)}")
+        logger.error(f"发生错误: {str(e)}")
         return None
         
     finally:
@@ -319,7 +339,7 @@ def send_wx_notification(title, message):
         # logger.info('发送微信消息成功')
     except Exception as e:
         # logger.error(f'发送微信消息失败: {str(e)}')
-        print(f'发送微信消息失败: {str(e)}')
+        logger.error(f'发送微信消息失败: {str(e)}')
 
 def init_scheduler():
        
@@ -350,14 +370,15 @@ def init_scheduler():
         elif period['period'] == "1月":
             interval_params['days'] = 30
 
-    # 添加定时任务
+        # 添加定时任务
         scheduler.add_job(
-            scheduled_task(period_obj=period),
+            lambda: scheduled_task(period_obj=period),  # 使用 lambda 函数
             'interval',
             next_run_time=next_run_time,
             **interval_params,
-            id=f'btc_flow_monitor_{period["period"]}'
+            id=f'btc_flow_monitor_{period["period"]}_{period["threshold"]}_{period["unit"]}'
         )
+        logger.info(f"添加定时任务: {period['period']}")
 
 if __name__ == '__main__':
     default_config = load_config()
