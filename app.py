@@ -69,8 +69,15 @@ def save_config(config):
 # 获取下一个执行时间点
 def get_next_run_time(period):
     now = datetime.now()
-    if period in ["5分钟", "15分钟", "30分钟"]:
+    if period in ["1分钟", "5分钟", "15分钟", "30分钟"]:
         minutes = now.minute
+        if period == "1分钟":
+            minutes = minutes // 1 * 1
+            if minutes == 0:
+                minutes = 1
+            next_time = now.replace(minute=minutes - 1, second=10, microsecond=0)
+            if next_time <= now:
+                next_time += timedelta(minutes=1)
         if period == "5分钟":
             minutes = minutes // 5 * 5
             if minutes == 0:
@@ -137,12 +144,14 @@ def get_next_run_time(period):
     return next_time
 
 # 定时任务
-def scheduled_task(period_obj):
-    # config = load_config()
-    result = get_btc_flow_data(period_obj)
-    if result:
-        # 处理结果，后续添加告警逻辑
-        logger.info(f"执行定时任务，获取到数据：{result}")
+# def scheduled_task():
+#     # config = load_config()
+#     job = scheduler.get_job()
+#     logger.info(f"当前定时任务: {job}")
+#     result = get_btc_flow_data()
+#     if result:
+#         # 处理结果，后续添加告警逻辑
+#         logger.info(f"执行定时任务，获取到数据：{result}")
 
 # 初始化调度器
 scheduler = BackgroundScheduler()
@@ -171,6 +180,8 @@ def update_config():
             next_run_time = get_next_run_time(period['period'])
             # 根据周期设置interval参数
             interval_params = {}
+            if period['period'] == "1分钟":
+                interval_params['minutes'] = 1
             if period['period'] == "5分钟":
                 interval_params['minutes'] = 5
             elif period['period'] == "15分钟":
@@ -194,8 +205,9 @@ def update_config():
 
             # 添加定时任务
             scheduler.add_job(
-                lambda: scheduled_task(period_obj=period),  # 使用 lambda 函数
+                get_btc_flow_data,
                 'interval',
+                args=[period],
                 next_run_time=next_run_time,
                 **interval_params,
                 id=f'btc_flow_monitor_{period["period"]}_{period["threshold"]}_{period["unit"]}'
@@ -210,6 +222,7 @@ def get_btc_flow_data(period_obj):
     options = webdriver.ChromeOptions()
     # 添加无头模式（可选）
     # options.add_argument('--headless')
+    logger.info(f"开始获取BTC净流入数据，周期: {period_obj['period']}, 阈值: {period_obj['threshold']}, 单位: {period_obj['unit']}")
     
     # 初始化浏览器
     driver = webdriver.Chrome(options=options)
@@ -342,13 +355,14 @@ def send_wx_notification(title, message):
         logger.error(f'发送微信消息失败: {str(e)}')
 
 def init_scheduler():
-       
     # 更新定时任务
     scheduler.remove_all_jobs()
     for period in default_config['period_list']:
         next_run_time = get_next_run_time(period['period'])
         # 根据周期设置interval参数
         interval_params = {}
+        if period['period'] == "1分钟":
+            interval_params['minutes'] = 1
         if period['period'] == "5分钟":
             interval_params['minutes'] = 5
         elif period['period'] == "15分钟":
@@ -372,13 +386,15 @@ def init_scheduler():
 
         # 添加定时任务
         scheduler.add_job(
-            lambda: scheduled_task(period_obj=period),  # 使用 lambda 函数
+            get_btc_flow_data,
             'interval',
+            args=[period],
             next_run_time=next_run_time,
             **interval_params,
             id=f'btc_flow_monitor_{period["period"]}_{period["threshold"]}_{period["unit"]}'
         )
-        logger.info(f"添加定时任务: {period['period']}")
+        logger.info(f"添加定时任务: {period['period']}_{period["threshold"]}_{period["unit"]}")
+
 
 if __name__ == '__main__':
     default_config = load_config()
@@ -389,5 +405,5 @@ if __name__ == '__main__':
 
     # test
     # while True:
-    #     get_btc_flow_data()
+    #     get_btc_flow_data(period_obj={"period": "5分钟", "threshold": 100, "unit": "万"})
     #     time.sleep(60)

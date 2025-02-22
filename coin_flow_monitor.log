@@ -25,3 +25,358 @@
 2025-02-21 12:40:10,047 - INFO - 执行定时任务，获取到数据：$17.73
 2025-02-21 12:40:10,047 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" executed successfully
 2025-02-21 12:40:10,048 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-21 12:44:30 CST)" executed successfully
+2025-02-22 09:18:01,858 - INFO - Scheduler started
+2025-02-22 09:18:01,861 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:18:01,861 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:18:01,861 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:18:01,861 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:18:01,861 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:18:01,862 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:18:01,867 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 09:18:01,867 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 09:18:18,542 - INFO - 127.0.0.1 - - [22/Feb/2025 09:18:18] "GET / HTTP/1.1" 200 -
+2025-02-22 09:19:10,007 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:24:10 CST)" (scheduled at 2025-02-22 09:19:10+08:00)
+2025-02-22 09:19:10,008 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:24:10 CST)" (scheduled at 2025-02-22 09:19:10+08:00)
+2025-02-22 09:19:10,009 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:24:10 CST)" (scheduled at 2025-02-22 09:19:10+08:00)
+2025-02-22 09:19:47,963 - INFO - 获取到的pl20文本: $165.61万
+2025-02-22 09:19:48,265 - INFO - 5分钟的值为: $165.61万
+2025-02-22 09:19:48,352 - INFO - 执行定时任务，获取到数据：$165.61
+2025-02-22 09:19:48,353 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:24:10 CST)" executed successfully
+2025-02-22 09:19:49,607 - INFO - 获取到的pl20文本: $166.45万
+2025-02-22 09:19:49,949 - INFO - 5分钟的值为: $166.45万
+2025-02-22 09:19:50,044 - INFO - 执行定时任务，获取到数据：$166.45
+2025-02-22 09:19:50,044 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:24:10 CST)" executed successfully
+2025-02-22 09:19:54,824 - INFO - 获取到的pl20文本: $166.32万
+2025-02-22 09:19:55,173 - INFO - 5分钟的值为: $166.32万
+2025-02-22 09:19:55,257 - INFO - 执行定时任务，获取到数据：$166.32
+2025-02-22 09:19:55,257 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:24:10 CST)" executed successfully
+2025-02-22 09:38:53,361 - INFO - Scheduler started
+2025-02-22 09:38:53,364 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:38:53,364 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:38:53,365 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:38:53,365 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:38:53,365 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:38:53,365 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:38:53,370 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 09:38:53,370 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 09:38:56,245 - INFO - 127.0.0.1 - - [22/Feb/2025 09:38:56] "GET / HTTP/1.1" 200 -
+2025-02-22 09:39:07,961 - INFO - Added job "update_config.<locals>.<lambda>" to job store "default"
+2025-02-22 09:39:07,962 - INFO - Added job "update_config.<locals>.<lambda>" to job store "default"
+2025-02-22 09:39:07,963 - INFO - Added job "update_config.<locals>.<lambda>" to job store "default"
+2025-02-22 09:39:07,964 - INFO - 127.0.0.1 - - [22/Feb/2025 09:39:07] "POST /api/config HTTP/1.1" 200 -
+2025-02-22 09:39:09,107 - INFO - 127.0.0.1 - - [22/Feb/2025 09:39:09] "GET / HTTP/1.1" 200 -
+2025-02-22 09:39:10,001 - INFO - Running job "update_config.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:44:10 CST)" (scheduled at 2025-02-22 09:39:10+08:00)
+2025-02-22 09:41:15,833 - ERROR - 发生错误: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=133.0.6943.127)
+Stacktrace:
+0   chromedriver                        0x00000001005a6b58 cxxbridge1$str$ptr + 2724820
+1   chromedriver                        0x000000010059f1b8 cxxbridge1$str$ptr + 2693684
+2   chromedriver                        0x0000000100105afc cxxbridge1$string$len + 93348
+3   chromedriver                        0x00000001000df4d4 chromedriver + 128212
+4   chromedriver                        0x0000000100174b24 cxxbridge1$string$len + 548044
+5   chromedriver                        0x000000010018d694 cxxbridge1$string$len + 649276
+6   chromedriver                        0x0000000100140ba0 cxxbridge1$string$len + 335176
+7   chromedriver                        0x000000010056f610 cxxbridge1$str$ptr + 2498188
+8   chromedriver                        0x0000000100572924 cxxbridge1$str$ptr + 2511264
+9   chromedriver                        0x0000000100554cb0 cxxbridge1$str$ptr + 2389292
+10  chromedriver                        0x00000001005731cc cxxbridge1$str$ptr + 2513480
+11  chromedriver                        0x0000000100545c98 cxxbridge1$str$ptr + 2327828
+12  chromedriver                        0x000000010058f880 cxxbridge1$str$ptr + 2629884
+13  chromedriver                        0x000000010058fa08 cxxbridge1$str$ptr + 2630276
+14  chromedriver                        0x000000010059ee2c cxxbridge1$str$ptr + 2692776
+15  libsystem_pthread.dylib             0x00000001869f9f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001869f4d34 thread_start + 8
+
+2025-02-22 09:41:15,944 - INFO - Job "update_config.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:44:10 CST)" executed successfully
+2025-02-22 09:41:31,576 - INFO - Scheduler started
+2025-02-22 09:41:31,578 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:41:31,578 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:41:31,578 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:41:31,578 - INFO - 添加定时任务: 1小时
+2025-02-22 09:41:31,579 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:41:31,579 - INFO - 添加定时任务: 4小时
+2025-02-22 09:41:31,583 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 09:41:31,583 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 09:42:29,841 - INFO - Scheduler started
+2025-02-22 09:42:50,687 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:42:53,406 - INFO - 添加定时任务: 5分钟
+2025-02-22 09:42:53,407 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:44:10,005 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:44:10 CST)" (scheduled at 2025-02-22 09:44:10+08:00)
+2025-02-22 09:44:35,450 - ERROR - 发生错误: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=133.0.6943.127)
+Stacktrace:
+0   chromedriver                        0x00000001053eeb58 cxxbridge1$str$ptr + 2724820
+1   chromedriver                        0x00000001053e71b8 cxxbridge1$str$ptr + 2693684
+2   chromedriver                        0x0000000104f4dafc cxxbridge1$string$len + 93348
+3   chromedriver                        0x0000000104f274d4 chromedriver + 128212
+4   chromedriver                        0x0000000104fbcb24 cxxbridge1$string$len + 548044
+5   chromedriver                        0x0000000104fd5694 cxxbridge1$string$len + 649276
+6   chromedriver                        0x0000000104f88ba0 cxxbridge1$string$len + 335176
+7   chromedriver                        0x00000001053b7610 cxxbridge1$str$ptr + 2498188
+8   chromedriver                        0x00000001053ba924 cxxbridge1$str$ptr + 2511264
+9   chromedriver                        0x000000010539ccb0 cxxbridge1$str$ptr + 2389292
+10  chromedriver                        0x00000001053bb1cc cxxbridge1$str$ptr + 2513480
+11  chromedriver                        0x000000010538dc98 cxxbridge1$str$ptr + 2327828
+12  chromedriver                        0x00000001053d7880 cxxbridge1$str$ptr + 2629884
+13  chromedriver                        0x00000001053d7a08 cxxbridge1$str$ptr + 2630276
+14  chromedriver                        0x00000001053e6e2c cxxbridge1$str$ptr + 2692776
+15  libsystem_pthread.dylib             0x00000001869f9f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001869f4d34 thread_start + 8
+
+2025-02-22 09:44:35,554 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:49:10 CST)" executed successfully
+2025-02-22 09:46:42,515 - INFO - Scheduler started
+2025-02-22 09:46:42,518 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:46:47,403 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 09:46:47,404 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:46:53,033 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 09:46:53,035 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 09:46:57,086 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 09:46:57,099 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 09:46:57,099 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 09:49:10,008 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:54:10 CST)" (scheduled at 2025-02-22 09:49:10+08:00)
+2025-02-22 09:53:56,538 - INFO - 获取到的pl20文本: $1484.00万
+2025-02-22 09:53:56,886 - INFO - 4小时的值为: $1484.00万
+2025-02-22 09:53:57,008 - INFO - 执行定时任务，获取到数据：$1484.00
+2025-02-22 09:53:57,008 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:54:10 CST)" executed successfully
+2025-02-22 09:54:10,006 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:59:10 CST)" (scheduled at 2025-02-22 09:54:10+08:00)
+2025-02-22 09:54:44,364 - ERROR - 发生错误: Message: element not interactable
+  (Session info: chrome=133.0.6943.127)
+Stacktrace:
+0   chromedriver                        0x0000000102b26b58 cxxbridge1$str$ptr + 2724820
+1   chromedriver                        0x0000000102b1f1b8 cxxbridge1$str$ptr + 2693684
+2   chromedriver                        0x0000000102685970 cxxbridge1$string$len + 92952
+3   chromedriver                        0x00000001026cd87c cxxbridge1$string$len + 387620
+4   chromedriver                        0x00000001026c2630 cxxbridge1$string$len + 341976
+5   chromedriver                        0x00000001026c20bc cxxbridge1$string$len + 340580
+6   chromedriver                        0x000000010270db94 cxxbridge1$string$len + 650556
+7   chromedriver                        0x00000001026c0ba0 cxxbridge1$string$len + 335176
+8   chromedriver                        0x0000000102aef610 cxxbridge1$str$ptr + 2498188
+9   chromedriver                        0x0000000102af2924 cxxbridge1$str$ptr + 2511264
+10  chromedriver                        0x0000000102ad4cb0 cxxbridge1$str$ptr + 2389292
+11  chromedriver                        0x0000000102af31cc cxxbridge1$str$ptr + 2513480
+12  chromedriver                        0x0000000102ac5c98 cxxbridge1$str$ptr + 2327828
+13  chromedriver                        0x0000000102b0f880 cxxbridge1$str$ptr + 2629884
+14  chromedriver                        0x0000000102b0fa08 cxxbridge1$str$ptr + 2630276
+15  chromedriver                        0x0000000102b1ee2c cxxbridge1$str$ptr + 2692776
+16  libsystem_pthread.dylib             0x00000001869f9f94 _pthread_start + 136
+17  libsystem_pthread.dylib             0x00000001869f4d34 thread_start + 8
+
+2025-02-22 09:54:47,921 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 09:59:10 CST)" executed successfully
+2025-02-22 09:59:10,001 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 10:04:10 CST)" (scheduled at 2025-02-22 09:59:10+08:00)
+2025-02-22 10:02:55,436 - INFO - Scheduler started
+2025-02-22 10:03:09,612 - ERROR - 发生错误: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=133.0.6943.127)
+Stacktrace:
+0   chromedriver                        0x0000000103006b58 cxxbridge1$str$ptr + 2724820
+1   chromedriver                        0x0000000102fff1b8 cxxbridge1$str$ptr + 2693684
+2   chromedriver                        0x0000000102b65afc cxxbridge1$string$len + 93348
+3   chromedriver                        0x0000000102b3f4d4 chromedriver + 128212
+4   chromedriver                        0x0000000102bd4b24 cxxbridge1$string$len + 548044
+5   chromedriver                        0x0000000102bed694 cxxbridge1$string$len + 649276
+6   chromedriver                        0x0000000102ba0ba0 cxxbridge1$string$len + 335176
+7   chromedriver                        0x0000000102fcf610 cxxbridge1$str$ptr + 2498188
+8   chromedriver                        0x0000000102fd2924 cxxbridge1$str$ptr + 2511264
+9   chromedriver                        0x0000000102fb4cb0 cxxbridge1$str$ptr + 2389292
+10  chromedriver                        0x0000000102fd31cc cxxbridge1$str$ptr + 2513480
+11  chromedriver                        0x0000000102fa5c98 cxxbridge1$str$ptr + 2327828
+12  chromedriver                        0x0000000102fef880 cxxbridge1$str$ptr + 2629884
+13  chromedriver                        0x0000000102fefa08 cxxbridge1$str$ptr + 2630276
+14  chromedriver                        0x0000000102ffee2c cxxbridge1$str$ptr + 2692776
+15  libsystem_pthread.dylib             0x00000001869f9f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001869f4d34 thread_start + 8
+
+2025-02-22 10:03:43,962 - INFO - Scheduler started
+2025-02-22 10:03:43,965 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:04:03,496 - INFO - Scheduler started
+2025-02-22 10:04:03,499 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:04:08,253 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:04:08,254 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:04:08,254 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:04:08,254 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:04:08,255 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:04:08,264 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:04:08,264 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:04:10,009 - INFO - Running job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 10:09:10 CST)" (scheduled at 2025-02-22 10:04:10+08:00)
+2025-02-22 10:04:10,010 - INFO - 开始获取BTC净流入数据，周期: 4小时, 阈值: 100, 单位: 万
+2025-02-22 10:04:21,256 - ERROR - 发生错误: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=133.0.6943.127)
+Stacktrace:
+0   chromedriver                        0x00000001026ceb58 cxxbridge1$str$ptr + 2724820
+1   chromedriver                        0x00000001026c71b8 cxxbridge1$str$ptr + 2693684
+2   chromedriver                        0x000000010222dafc cxxbridge1$string$len + 93348
+3   chromedriver                        0x00000001022074d4 chromedriver + 128212
+4   chromedriver                        0x000000010229cb24 cxxbridge1$string$len + 548044
+5   chromedriver                        0x00000001022b5694 cxxbridge1$string$len + 649276
+6   chromedriver                        0x0000000102268ba0 cxxbridge1$string$len + 335176
+7   chromedriver                        0x0000000102697610 cxxbridge1$str$ptr + 2498188
+8   chromedriver                        0x000000010269a924 cxxbridge1$str$ptr + 2511264
+9   chromedriver                        0x000000010267ccb0 cxxbridge1$str$ptr + 2389292
+10  chromedriver                        0x000000010269b1cc cxxbridge1$str$ptr + 2513480
+11  chromedriver                        0x000000010266dc98 cxxbridge1$str$ptr + 2327828
+12  chromedriver                        0x00000001026b7880 cxxbridge1$str$ptr + 2629884
+13  chromedriver                        0x00000001026b7a08 cxxbridge1$str$ptr + 2630276
+14  chromedriver                        0x00000001026c6e2c cxxbridge1$str$ptr + 2692776
+15  libsystem_pthread.dylib             0x00000001869f9f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001869f4d34 thread_start + 8
+
+2025-02-22 10:04:21,346 - INFO - Job "init_scheduler.<locals>.<lambda> (trigger: interval[0:05:00], next run at: 2025-02-22 10:09:10 CST)" executed successfully
+2025-02-22 10:06:41,145 - INFO - Scheduler started
+2025-02-22 10:06:41,148 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:06:41,148 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:06:41,148 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:06:41,148 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:06:41,149 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:06:41,149 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:06:41,149 - INFO - 当前定时任务: [<Job (id=btc_flow_monitor_5分钟_30_万 name=init_scheduler.<locals>.<lambda>)>, <Job (id=btc_flow_monitor_1小时_50_万 name=init_scheduler.<locals>.<lambda>)>, <Job (id=btc_flow_monitor_4小时_100_万 name=init_scheduler.<locals>.<lambda>)>]
+2025-02-22 10:06:41,153 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:06:41,153 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:06:56,093 - INFO - Scheduler started
+2025-02-22 10:06:56,095 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:06:56,095 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:06:56,095 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:06:56,095 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:06:56,095 - INFO - Added job "init_scheduler.<locals>.<lambda>" to job store "default"
+2025-02-22 10:06:56,095 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:14:20,302 - INFO - Scheduler started
+2025-02-22 10:14:20,304 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:14:20,304 - INFO - 添加定时任务: 1分钟_30_万
+2025-02-22 10:14:20,304 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:14:20,304 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:14:20,305 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:14:20,305 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:14:20,309 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:14:20,310 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:16:51,252 - INFO - 127.0.0.1 - - [22/Feb/2025 10:16:51] "GET / HTTP/1.1" 200 -
+2025-02-22 10:17:09,838 - INFO - Scheduler started
+2025-02-22 10:17:09,840 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:17:09,840 - INFO - 添加定时任务: 1分钟_30_万
+2025-02-22 10:17:09,840 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:17:09,840 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:17:09,840 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:17:09,840 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:17:09,845 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:17:09,845 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:17:12,710 - INFO - 127.0.0.1 - - [22/Feb/2025 10:17:12] "GET / HTTP/1.1" 200 -
+2025-02-22 10:17:16,871 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:17:16,872 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:17:16,872 - INFO - Added job "scheduled_task" to job store "default"
+2025-02-22 10:17:16,873 - INFO - 127.0.0.1 - - [22/Feb/2025 10:17:16] "POST /api/config HTTP/1.1" 200 -
+2025-02-22 10:17:18,053 - INFO - 127.0.0.1 - - [22/Feb/2025 10:17:18] "GET / HTTP/1.1" 200 -
+2025-02-22 10:17:19,881 - INFO - 127.0.0.1 - - [22/Feb/2025 10:17:19] "GET / HTTP/1.1" 200 -
+2025-02-22 10:19:10,001 - INFO - Running job "scheduled_task (trigger: interval[0:05:00], next run at: 2025-02-22 10:19:10 CST)" (scheduled at 2025-02-22 10:19:10+08:00)
+2025-02-22 10:19:10,006 - ERROR - Job "scheduled_task (trigger: interval[0:05:00], next run at: 2025-02-22 10:24:10 CST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/robin/Desktop/Workspace/coin_flow_data_crawl/venv/lib/python3.13/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/Users/robin/Desktop/Workspace/coin_flow_data_crawl/app.py", line 149, in scheduled_task
+    job = scheduler.get_job()
+TypeError: BaseScheduler.get_job() missing 1 required positional argument: 'job_id'
+2025-02-22 10:21:22,379 - INFO - Scheduler started
+2025-02-22 10:24:00,888 - INFO - Scheduler started
+2025-02-22 10:24:00,890 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:24:00,891 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:24:00,891 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:24:00,891 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:24:00,891 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:24:00,891 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:24:00,903 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:24:00,903 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:24:10,004 - INFO - Running job "get_btc_flow_data (trigger: interval[0:05:00], next run at: 2025-02-22 10:29:10 CST)" (scheduled at 2025-02-22 10:24:10+08:00)
+2025-02-22 10:24:10,006 - INFO - 开始获取BTC净流入数据，周期: 5分钟, 阈值: 30, 单位: 万
+2025-02-22 10:28:42,177 - INFO - Scheduler started
+2025-02-22 10:28:42,179 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:28:42,179 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:28:42,180 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:28:42,180 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:28:42,180 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:28:42,180 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:28:42,184 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:28:42,184 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:28:56,281 - INFO - 127.0.0.1 - - [22/Feb/2025 10:28:56] "GET / HTTP/1.1" 200 -
+2025-02-22 10:28:57,404 - INFO - 127.0.0.1 - - [22/Feb/2025 10:28:57] "GET / HTTP/1.1" 200 -
+2025-02-22 10:29:10,006 - INFO - Running job "get_btc_flow_data (trigger: interval[0:05:00], next run at: 2025-02-22 10:34:10 CST)" (scheduled at 2025-02-22 10:29:10+08:00)
+2025-02-22 10:29:10,013 - ERROR - Job "get_btc_flow_data (trigger: interval[0:05:00], next run at: 2025-02-22 10:34:10 CST)" raised an exception
+Traceback (most recent call last):
+  File "/Users/robin/Desktop/Workspace/coin_flow_data_crawl/venv/lib/python3.13/site-packages/apscheduler/executors/base.py", line 131, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/Users/robin/Desktop/Workspace/coin_flow_data_crawl/app.py", line 225, in get_btc_flow_data
+    logger.info(f"开始获取BTC净流入数据，周期: {period_obj['period']}, 阈值: {period_obj['threshold']}, 单位: {period_obj['unit']}")
+                                                ~~~~~~~~~~^^^^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2025-02-22 10:31:16,572 - INFO - Scheduler started
+2025-02-22 10:31:16,574 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:31:16,574 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:31:16,574 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:31:16,574 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:31:16,574 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:31:16,574 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:31:16,579 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:31:16,579 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:34:10,002 - INFO - Running job "get_btc_flow_data (trigger: interval[0:05:00], next run at: 2025-02-22 10:39:10 CST)" (scheduled at 2025-02-22 10:34:10+08:00)
+2025-02-22 10:35:39,349 - INFO - Scheduler started
+2025-02-22 10:35:39,351 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:35:39,351 - INFO - 添加定时任务: 5分钟_30_万
+2025-02-22 10:35:39,352 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:35:39,352 - INFO - 添加定时任务: 1小时_50_万
+2025-02-22 10:35:39,352 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:35:39,352 - INFO - 添加定时任务: 4小时_100_万
+2025-02-22 10:35:39,356 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://192.168.1.221:80
+2025-02-22 10:35:39,356 - INFO - [33mPress CTRL+C to quit[0m
+2025-02-22 10:35:43,587 - INFO - 127.0.0.1 - - [22/Feb/2025 10:35:43] "GET / HTTP/1.1" 200 -
+2025-02-22 10:35:47,816 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:35:47,817 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:35:47,818 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:35:47,819 - INFO - 127.0.0.1 - - [22/Feb/2025 10:35:47] "POST /api/config HTTP/1.1" 200 -
+2025-02-22 10:35:48,817 - INFO - 127.0.0.1 - - [22/Feb/2025 10:35:48] "GET / HTTP/1.1" 200 -
+2025-02-22 10:35:50,785 - INFO - 127.0.0.1 - - [22/Feb/2025 10:35:50] "GET / HTTP/1.1" 200 -
+2025-02-22 10:35:51,783 - INFO - 127.0.0.1 - - [22/Feb/2025 10:35:51] "GET / HTTP/1.1" 200 -
+2025-02-22 10:36:42,549 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:36:42,550 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:36:42,550 - INFO - Added job "get_btc_flow_data" to job store "default"
+2025-02-22 10:36:42,551 - INFO - 127.0.0.1 - - [22/Feb/2025 10:36:42] "POST /api/config HTTP/1.1" 200 -
+2025-02-22 10:36:43,644 - INFO - 127.0.0.1 - - [22/Feb/2025 10:36:43] "GET / HTTP/1.1" 200 -
+2025-02-22 10:39:10,004 - INFO - Running job "get_btc_flow_data (trigger: interval[0:05:00], next run at: 2025-02-22 10:39:10 CST)" (scheduled at 2025-02-22 10:39:10+08:00)
+2025-02-22 10:39:15,058 - INFO - 开始获取BTC净流入数据，周期: 5分钟, 阈值: 30, 单位: 万
+2025-02-22 10:39:52,555 - INFO - 获取到的pl20文本: $831.84万
+2025-02-22 10:39:52,922 - INFO - 5分钟的值为: $831.84万
+2025-02-22 10:39:53,015 - INFO - Job "get_btc_flow_data (trigger: interval[0:05:00], next run at: 2025-02-22 10:44:10 CST)" executed successfully
