@@ -75,67 +75,67 @@ def get_next_run_time(period):
             minutes = minutes // 1 * 1
             if minutes == 0:
                 minutes = 1
-            next_time = now.replace(minute=minutes - 1, second=10, microsecond=0)
+            next_time = now.replace(minute=minutes - 1, second=00, microsecond=0)
             if next_time <= now:
                 next_time += timedelta(minutes=1)
         if period == "5分钟":
             minutes = minutes // 5 * 5
             if minutes == 0:
                 minutes = 5
-            next_time = now.replace(minute=minutes - 1, second=10, microsecond=0)
+            next_time = now.replace(minute=minutes - 2, second=00, microsecond=00)
             if next_time <= now:
                 next_time += timedelta(minutes=5)
         elif period == "15分钟":
             minutes = minutes // 15 * 15
             if minutes == 0:
                 minutes = 15
-            next_time = now.replace(minute=minutes - 1, second=10, microsecond=0)
+            next_time = now.replace(minute=minutes - 2, second=00, microsecond=00)
             if next_time <= now:
                 next_time += timedelta(minutes=15)
         else:  # 30分钟
             minutes = minutes // 30 * 30
             if minutes == 0:
                 minutes = 30
-            next_time = now.replace(minute=minutes - 1, second=10, microsecond=0)
+            next_time = now.replace(minute=minutes - 2, second=00, microsecond=00)
             if next_time <= now:
                 next_time += timedelta(minutes=30)
     if period == "1小时":
         hours = now.hour
-        next_time = now.replace(minute=59, second=59, microsecond=10)
+        next_time = now.replace(minute=58, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(hours=1)
     elif period == "4小时":
         hours = now.hour // 4 * 4
         if hours == 0:
             hours = 4
-        next_time = now.replace(hour=hours - 1, minute=59, second=59, microsecond=10)
+        next_time = now.replace(hour=hours - 1, minute=58, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(hours=4)
     elif period == "12小时":
         hours = now.hour // 12 * 12
         if hours == 0:
             hours = 12
-        next_time = now.replace(hour=hours - 1, minute=59, second=59, microsecond=10)
+        next_time = now.replace(hour=hours - 1, minute=58, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(hours=12)
     elif period == "24小时" or period == "1天":
-        next_time = now.replace(hour=23, minute=59, second=59, microsecond=10)
+        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(days=1)
     elif period == "1周":
-        next_time = now.replace(hour=23, minute=59, second=59, microsecond=10)
+        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
         days_ahead = 7 - now.weekday()
         if days_ahead <= 0:
             days_ahead += 7
         next_time += timedelta(days=days_ahead - 1)
     elif period == "15天":
-        next_time = now.replace(hour=23, minute=59, second=59, microsecond=10)
+        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
         days_ahead = 15 - now.day
         if days_ahead <= 0:
             days_ahead += 15
         next_time += timedelta(days=days_ahead - 1)
     elif period == "30天":
-        next_time = now.replace(hour=23, minute=59, second=59, microsecond=10)
+        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
         days_ahead = 30 - now.day
         if days_ahead <= 0:
             days_ahead += 30
