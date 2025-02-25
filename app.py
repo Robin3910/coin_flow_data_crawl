@@ -393,7 +393,7 @@ def init_scheduler():
             **interval_params,
             id=f'btc_flow_monitor_{period["period"]}_{period["threshold"]}_{period["unit"]}'
         )
-        logger.info(f"添加定时任务: {period['period']}_{period["threshold"]}_{period["unit"]}")
+        logger.info(f"添加定时任务: {period['period']}_{period['threshold']}_{period['unit']}")
 
 
 if __name__ == '__main__':
