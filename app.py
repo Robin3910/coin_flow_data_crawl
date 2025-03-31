@@ -13,6 +13,7 @@ import requests
 import re
 from selenium.webdriver.common.action_chains import ActionChains
 import logging  # 添加导入
+import threading
 
 
 app = Flask(__name__)
@@ -395,10 +396,53 @@ def init_scheduler():
         )
         logger.info(f"添加定时任务: {period['period']}_{period['threshold']}_{period['unit']}")
 
+def reinit_scheduler_thread(minutes_list):
+    """在指定的分钟时间点重新初始化调度器
+    
+    Args:
+        minutes_list: 列表，包含每小时需要执行的分钟时间点，例如 [13, 43]
+    """
+    while True:
+        try:
+            current_time = datetime.now()
+            current_minute = current_time.minute
+            
+            # 计算到下一个执行时间点的等待时间
+            next_minutes = []
+            for min_point in minutes_list:
+                if current_minute < min_point:
+                    next_minutes.append(min_point - current_minute)
+                else:
+                    next_minutes.append(60 + min_point - current_minute)
+            
+            # 选择最近的下一个时间点
+            wait_minutes = min(next_minutes)
+            
+            # 等待到下一个执行时间点
+            logger.info(f"下一次重新初始化将在 {wait_minutes} 分钟后执行")
+            time.sleep(wait_minutes * 60)
+            
+            # 执行初始化
+            logger.info("开始重新初始化调度器...")
+            init_scheduler()
+            logger.info("调度器重新初始化完成")
+            
+        except Exception as e:
+            logger.error(f"重新初始化调度器时发生错误: {str(e)}")
+            time.sleep(60)  # 发生错误时等待1分钟后重试
 
 if __name__ == '__main__':
     default_config = load_config()
     init_scheduler()
+    
+    # 启动重新初始化线程，设置在每小时的第13分钟和第43分钟执行
+    reinit_minutes = [19, 49]  # 可以根据需要修改这个列表
+    reinit_thread = threading.Thread(
+        target=reinit_scheduler_thread, 
+        args=(reinit_minutes,),
+        daemon=True
+    )
+    reinit_thread.start()
     
     app.run(debug=False, host='0.0.0.0', port=80)
 
