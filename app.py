@@ -102,14 +102,14 @@ def get_next_run_time(period):
                 next_time += timedelta(minutes=30)
     if period == "1小时":
         hours = now.hour
-        next_time = now.replace(minute=58, second=00, microsecond=00)
+        next_time = now.replace(minute=57, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(hours=1)
     elif period == "4小时":
         hours = now.hour // 4 * 4
         if hours == 0:
             hours = 4
-        next_time = now.replace(hour=hours - 1, minute=58, second=00, microsecond=00)
+        next_time = now.replace(hour=hours - 1, minute=50, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(hours=4)
     elif period == "12小时":
@@ -120,23 +120,23 @@ def get_next_run_time(period):
         if next_time <= now:
             next_time += timedelta(hours=12)
     elif period == "24小时" or period == "1天":
-        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
+        next_time = now.replace(hour=23, minute=45, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(days=1)
     elif period == "1周":
-        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
+        next_time = now.replace(hour=23, minute=45, second=00, microsecond=00)
         days_ahead = 7 - now.weekday()
         if days_ahead <= 0:
             days_ahead += 7
         next_time += timedelta(days=days_ahead - 1)
     elif period == "15天":
-        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
+        next_time = now.replace(hour=23, minute=45, second=00, microsecond=00)
         days_ahead = 15 - now.day
         if days_ahead <= 0:
             days_ahead += 15
         next_time += timedelta(days=days_ahead - 1)
     elif period == "30天":
-        next_time = now.replace(hour=23, minute=58, second=00, microsecond=00)
+        next_time = now.replace(hour=23, minute=45, second=00, microsecond=00)
         days_ahead = 30 - now.day
         if days_ahead <= 0:
             days_ahead += 30
@@ -245,13 +245,14 @@ def get_btc_flow_data(period_obj):
 
         # 根据当前配置的时间周期，点击对应的按钮
         period_list_btn = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@aria-controls=":R7acdaeqm:"]')))
-        period_list_btn.click()
+        driver.execute_script("arguments[0].click();", period_list_btn)
 
         # 根据default_config['period']，点击对应的按钮
         # 等待并点击对应时间周期的选项
         period_options = wait.until(EC.presence_of_element_located((By.XPATH, f"//ul[@id=':R7acdaeqm:']")))
         period_option = period_options.find_element(By.XPATH, f"//li[text()='{period_obj['period']}']")
-        period_option.click()
+        # period_option.click()
+        driver.execute_script("arguments[0].click();", period_option)
 
         time.sleep(2)
 
