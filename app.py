@@ -120,7 +120,7 @@ def get_next_run_time(period):
         if next_time <= now:
             next_time += timedelta(hours=12)
     elif period == "24小时" or period == "1天":
-        next_time = now.replace(hour=23, minute=45, second=00, microsecond=00)
+        next_time = now.replace(hour=7, minute=45, second=00, microsecond=00)
         if next_time <= now:
             next_time += timedelta(days=1)
     elif period == "1周":
@@ -321,6 +321,8 @@ def get_btc_flow_data(period_obj):
             if should_alert:
                 alert_msg = f"BTC{period_obj['period']}的净流入值{pl20_text[0]},超过阈值{period_obj['threshold']}{period_obj['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
+                # 重新初始化定时器
+                init_scheduler()
             logger.info(f"{period_obj['period']}的值为: {pl20_text[0]}")
             return value
     except ValueError:
