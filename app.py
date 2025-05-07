@@ -321,8 +321,10 @@ def get_btc_flow_data(period_obj):
             if should_alert:
                 alert_msg = f"BTC{period_obj['period']}的净流入值{pl20_text[0]},超过阈值{period_obj['threshold']}{period_obj['unit']}"
                 send_wx_notification(alert_msg, alert_msg)
-                # 重新初始化定时器
-                init_scheduler()
+                
+                # 如果是天维度的，重新初始化定时器
+                if period_obj['period'] in ['1天', '24小时', '1周']:
+                    init_scheduler()
             logger.info(f"{period_obj['period']}的值为: {pl20_text[0]}")
             return value
     except ValueError:
